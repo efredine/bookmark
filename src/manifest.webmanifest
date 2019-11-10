@@ -10,12 +10,16 @@
     "default_popup": "popup.html"
   },
 
+  "icons": {
+    "128": "icon.png"
+  },
+
   "permissions": ["activeTab", "tabs"],
 
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["js/main.js"]
+      "js": ["main.js"]
     }
   ]
 }

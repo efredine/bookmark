@@ -14,7 +14,8 @@ const rename = promisify(fs.rename);
 // OR: Multiple files in an array
 // const entryFiles = ['./src/index.html', './some/other/directory/scripts.js'];
 const entryFiles = [
-  'src/js/popup.js',
+  'src/popup.js',
+  'src/main.js',
   'src/popup.html',
   'src/manifest.webmanifest',
   'src/*.png',
