@@ -1,18 +1,21 @@
 {
-  "name": "extension-name",
+  "name": "bookmark-extension",
   "version": "0.1.0",
-  "description": "Description",
+  "description": "Bookmark with full text search of bookmarked pages.",
   "main": "src/js/main.js",
   "scripts": {
     "build": "parcel build src/js/main.js -d src/build/ -o main.js",
-    "watch": "parcel watch src/js/main.js -d src/build/ -o main.js"
+    "watch": "./bundle-watch.js"
   },
-  "author": "Atakan Goktepe",
+  "author": "Eric Fredine",
   "dependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "parcel-bundler": "^1.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3"
   }
 }

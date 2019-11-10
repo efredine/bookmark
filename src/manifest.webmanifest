@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Bookmark",
+  "description": "Bookmark with full text search.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": ["activeTab", "tabs"],
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["js/main.js"]
+    }
+  ]
+}
