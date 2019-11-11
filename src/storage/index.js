@@ -30,4 +30,17 @@ const prepareDatabase = error =>
       : db.changeVersion(db.version, VERSION, createTables(error), error);
   });
 
-export { prepareDatabase };
+const executeSql = (sql, parameters, resolve, reject) => tx =>
+  tx.executeSql(sql, parameters, resolve, reject);
+
+const query = (db, sql, parameters = []) =>
+  new Promise((resolve, reject) => {
+    db.readTransaction(executeSql(sql, parameters, resolve, reject), reject);
+  });
+
+const mutation = (db, sql, parameters = []) =>
+  new Promise((resolve, reject) => {
+    db.transaction(executeSql(sql, parameters, resolve, reject), reject);
+  });
+
+export { prepareDatabase, query, mutation };

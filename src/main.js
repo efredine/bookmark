@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import Button from './components/Button';
+import { indexPage } from './indexer';
 
 class App extends React.Component {
   render() {
@@ -16,7 +16,7 @@ class App extends React.Component {
 
 // Message Listener function
 chrome.runtime.onMessage.addListener((request, sender, response) => {
-  console.log('Received a message.');
+  console.log('Received in main.js:', request);
   // If message is injectApp
   if (request.injectApp) {
     // Inject our app to DOM and send response
@@ -27,14 +27,12 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     });
   }
   if (request.bookmarkPage) {
-    bookmarkPage();
-    response({
-      startedExtension: true,
-    });
+    bookmarkPage(response);
+    return true;
   }
 });
 
-function bookmarkPage() {
+function bookmarkPage(response) {
   const treeWalker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
@@ -57,7 +55,8 @@ function bookmarkPage() {
     title: document.title,
     url: window.location.href,
   };
-  console.log(page);
+  // console.log(page);
+  indexPage(page.title, page.url, response);
 }
 
 function injectApp() {
