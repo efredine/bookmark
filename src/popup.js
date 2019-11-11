@@ -3,12 +3,7 @@ import ReactDOM from 'react-dom';
 import Button from './components/Button';
 
 function ExtensionApp() {
-  return (
-    <div>
-      Your App injected to DOM correctly!
-      <Button />
-    </div>
-  );
+  return <Button />;
 }
 console.log('Executing popup.js');
 

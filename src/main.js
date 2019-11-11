@@ -8,7 +8,6 @@ class App extends React.Component {
     console.log('Injected into DOM.');
     return (
       <div>
-        Your App injected to DOM correctly!
         <Button />
       </div>
     );
@@ -27,7 +26,39 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
       startedExtension: true,
     });
   }
+  if (request.bookmarkPage) {
+    bookmarkPage();
+    response({
+      startedExtension: true,
+    });
+  }
 });
+
+function bookmarkPage() {
+  const treeWalker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    function(node) {
+      return node.textContent
+        ? NodeFilter.FILTER_ACCEPT
+        : NodeFilter.FILTER_SKIP;
+    },
+    false
+  );
+
+  let content = '';
+  while (treeWalker.nextNode()) {
+    if (treeWalker.currentNode && treeWalker.currentNode.textContent) {
+      content += treeWalker.currentNode.textContent;
+    }
+  }
+  const page = {
+    content,
+    title: document.title,
+    url: window.location.href,
+  };
+  console.log(page);
+}
 
 function injectApp() {
   const newDiv = document.createElement('div');

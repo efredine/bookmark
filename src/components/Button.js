@@ -10,13 +10,13 @@ function Button() {
       },
       tabs => {
         // Send message to script file
-        chrome.tabs.sendMessage(tabs[0].id, { injectApp: true }, response =>
+        chrome.tabs.sendMessage(tabs[0].id, { bookmarkPage: true }, response =>
           window.close()
         );
       }
     );
   }
-  return <button onClick={handleClick}>Hello</button>;
+  return <button onClick={handleClick}>Bookmark</button>;
 }
 
 Button.propTypes = {};
