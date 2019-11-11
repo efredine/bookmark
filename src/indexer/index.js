@@ -1,8 +1,8 @@
 import { insertPage } from '../repository';
 
-const indexPage = (title, url, response) => {
+const indexPage = (title, url, content, response) => {
   console.log('indexing page');
-  insertPage(title, url, response);
+  insertPage(title, url, content, response);
 };
 
 export { indexPage };

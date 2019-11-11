@@ -26,5 +26,9 @@
       "matches": ["http://*/*", "https://*/*"],
       "js": ["main.js"]
     }
-  ]
+  ],
+
+  "omnibox": {
+    "keyword": "bm"
+  }
 }

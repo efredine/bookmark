@@ -4,7 +4,7 @@
   "description": "Bookmark with full text search of bookmarked pages.",
   "main": "src/main.js",
   "scripts": {
-    "build": "parcel build src/background.js src/main.js src/popup.html src/popup.js src/icon.png; cp src/manifest.json dist/manifest.json;",
+    "build": "parcel build --no-minify src/background.js src/main.js src/popup.html src/popup.js src/icon.png; cp src/manifest.json dist/manifest.json;",
     "watch": "watchman watch src; watchman -- trigger src build-extension -- yarn build",
     "watch-broken": "parcel watch src/main.js src/popup.html src/popup.js src/icon.png",
     "custom-watch": "./bundle-watch.js"

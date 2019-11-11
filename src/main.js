@@ -56,7 +56,7 @@ function bookmarkPage(response) {
     url: window.location.href,
   };
   // console.log(page);
-  indexPage(page.title, page.url, response);
+  indexPage(page, response);
 }
 
 function injectApp() {

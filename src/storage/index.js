@@ -4,11 +4,8 @@ const DESCRIPTION = 'Offline book marked pages';
 const DEFAULT_SIZE = 5 * 1024 * 1024;
 
 const CREATE_TABLES = `
-  CREATE TABLE IF NOT EXISTS pages (
-    id INTEGER PRIMARY KEY,
-    url TEXT NOT NULL,
-    title TEXT NOT NULL
-  );
+  CREATE VIRTUAL TABLE fs_pages 
+  USING FTS3(title, url, content);
 `;
 
 const createTables = error => tx => {
@@ -35,7 +32,25 @@ const executeSql = (sql, parameters, resolve, reject) => tx =>
 
 const query = (db, sql, parameters = []) =>
   new Promise((resolve, reject) => {
-    db.readTransaction(executeSql(sql, parameters, resolve, reject), reject);
+    console.log('query', sql, parameters);
+    db.transaction(
+      executeSql(
+        sql,
+        parameters,
+        (_, result) => {
+          console.log('result', _, result);
+          resolve(result);
+        },
+        error => {
+          console.error('failed executing sql', error);
+          reject(error);
+        }
+      ),
+      error => {
+        console.error('failed before creating readTransaction', error);
+        reject(error);
+      }
+    );
   });
 
 const mutation = (db, sql, parameters = []) =>
