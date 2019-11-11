@@ -4,7 +4,7 @@
   "description": "Bookmark with full text search of bookmarked pages.",
   "main": "src/main.js",
   "scripts": {
-    "build": "parcel build src/main.js src/popup.html src/popup.js src/icon.png; cp src/manifest.webmanifest dist/manifest.json;",
+    "build": "parcel build src/background.js src/main.js src/popup.html src/popup.js src/icon.png; cp src/manifest.json dist/manifest.json;",
     "watch": "watchman watch src; watchman -- trigger src build-extension -- yarn build",
     "watch-broken": "parcel watch src/main.js src/popup.html src/popup.js src/icon.png",
     "custom-watch": "./bundle-watch.js"
@@ -18,6 +18,8 @@
     "react-dom": "^16.11.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-react": "^7.7.0",
     "babel-core": "^6.26.3"
   }
 }
