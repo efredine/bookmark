@@ -8,9 +8,12 @@ VALUES (?, ?);
 let db;
 
 const initializeRepository = () => {
-  console.log('background lives');
-  db = prepareDatabase(console.error);
-  console.log('db prepared', db);
+  chrome.runtime.onInstalled.addListener(() => {
+    console.log('background lives');
+    db = prepareDatabase(console.error);
+    console.log('db prepared', db);
+  });
+  chrome.runtime.onMessage.addListener(dispatcher);
 };
 
 const dispatcher = (request, sender, sendResponse) => {
@@ -42,4 +45,4 @@ const insertPage = (title, url, response) => {
   );
 };
 
-export { initializeRepository, dispatcher, insertPage };
+export { initializeRepository, insertPage };
