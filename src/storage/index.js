@@ -27,35 +27,20 @@ const prepareDatabase = error =>
       : db.changeVersion(db.version, VERSION, createTables(error), error);
   });
 
-const executeSql = (sql, parameters, resolve, reject) => tx =>
-  tx.executeSql(sql, parameters, resolve, reject);
-
-const query = (db, sql, parameters = []) =>
+// Exporting executeSql separately as query and mutation in case we someday need to handle
+// them differently. The db.readTransaction option didn't seem to work. 
+const executeSql = (db, sql, parameters = []) =>
   new Promise((resolve, reject) => {
-    console.log('query', sql, parameters);
     db.transaction(
-      executeSql(
-        sql,
-        parameters,
-        (_, result) => {
-          console.log('result', _, result);
-          resolve(result);
-        },
-        error => {
-          console.error('failed executing sql', error);
-          reject(error);
-        }
-      ),
-      error => {
-        console.error('failed before creating readTransaction', error);
-        reject(error);
-      }
+      tx =>
+        tx.executeSql(
+          sql,
+          parameters,
+          (_, results) => resolve(results),
+          reject
+        ),
+      reject
     );
   });
 
-const mutation = (db, sql, parameters = []) =>
-  new Promise((resolve, reject) => {
-    db.transaction(executeSql(sql, parameters, resolve, reject), reject);
-  });
-
-export { prepareDatabase, query, mutation };
+export { prepareDatabase, executeSql as query, executeSql as mutation };

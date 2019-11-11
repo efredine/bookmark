@@ -8,20 +8,18 @@ VALUES (?, ?, ?);
 const QUERY_CONTENT_SQL = `
 SELECT url, title
 FROM fs_pages
-WHERE content match ?;
+WHERE content match ?
+LIMIT 10;
 `;
 
 let db;
 
 const initializeRepository = () => {
   chrome.runtime.onInstalled.addListener(() => {
-    console.log('background lives');
     db = prepareDatabase(console.error);
-    console.log('db prepared', db);
   });
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('Dispatching:', request);
-
     if (request.insertPage) {
       insertPageMutation(request.parameters, sendResponse);
       return true;
@@ -31,7 +29,7 @@ const initializeRepository = () => {
 
 const insertPageMutation = ({ title, url, content }, sendResponse) =>
   mutation(db, INSERT_PAGE_SQL, [title, url, content])
-    .then((_, result) => sendResponse({ insertedPage: true }))
+    .then(sendResponse)
     .catch(console.error);
 
 const insertPage = (page, response) => {
@@ -40,12 +38,7 @@ const insertPage = (page, response) => {
       insertPage: true,
       parameters: page,
     },
-    indexResponse => {
-      console.log('indexPage response', indexResponse);
-      response({
-        insertedPage: true,
-      });
-    }
+    response
   );
 };
 
