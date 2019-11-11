@@ -5,6 +5,7 @@ import Button from './components/Button';
 
 class App extends React.Component {
   render() {
+    console.log('Injected into DOM.');
     return (
       <div>
         Your App injected to DOM correctly!
@@ -16,10 +17,12 @@ class App extends React.Component {
 
 // Message Listener function
 chrome.runtime.onMessage.addListener((request, sender, response) => {
+  console.log('Received a message.');
   // If message is injectApp
   if (request.injectApp) {
     // Inject our app to DOM and send response
     injectApp();
+    console.log('Insert injection here.');
     response({
       startedExtension: true,
     });

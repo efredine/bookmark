@@ -2,10 +2,12 @@
   "name": "bookmark-extension",
   "version": "0.1.0",
   "description": "Bookmark with full text search of bookmarked pages.",
-  "main": "src/js/main.js",
+  "main": "src/main.js",
   "scripts": {
-    "build": "parcel build src/js/main.js -d src/build/ -o main.js",
-    "watch": "./bundle-watch.js"
+    "build": "parcel build src/main.js src/popup.html src/popup.js src/icon.png; cp src/manifest.webmanifest dist/manifest.json;",
+    "watch": "watchman watch src; watchman -- trigger src build-extension -- yarn build",
+    "watch-broken": "parcel watch src/main.js src/popup.html src/popup.js src/icon.png",
+    "custom-watch": "./bundle-watch.js"
   },
   "author": "Eric Fredine",
   "dependencies": {
@@ -13,7 +15,7 @@
     "babel-preset-react": "^6.24.1",
     "parcel-bundler": "^1.6.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3"

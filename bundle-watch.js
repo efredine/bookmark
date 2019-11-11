@@ -23,14 +23,14 @@ const entryFiles = [
 
 // Bundler options
 const options = {
-  outDir: './dist', // The out directory to put the build files in, defaults to dist
+  //   outDir: './dist', // The out directory to put the build files in, defaults to dist
   //   outFile: 'index.html', // The name of the outputFile
   //   publicUrl: './', // The url to serve on, defaults to '/'
-  watch: true, // Whether to watch the files and rebuild them on change, defaults to process.env.NODE_ENV !== 'production'
+  watch: false, // Whether to watch the files and rebuild them on change, defaults to process.env.NODE_ENV !== 'production'
   cache: false, // Enabled or disables caching, defaults to true
   cacheDir: '.cache', // The directory cache gets put in, defaults to .cache
   contentHash: false, // Disable content hash from being included on the filename
-  global: 'moduleName', // Expose modules as UMD under this name, disabled by default
+  //   global: 'moduleName', // Expose modules as UMD under this name, disabled by default
   minify: false, // Minify files, enabled if process.env.NODE_ENV === 'production'
   scopeHoist: false, // Turn on experimental scope hoisting/tree shaking flag, for smaller production bundles
   target: 'browser', // Browser/node/electron, defaults to browser
@@ -45,8 +45,8 @@ const options = {
   hmrPort: 0, // The port the HMR socket runs on, defaults to a random free port (0 in node.js resolves to a random free port)
   sourceMaps: true, // Enable or disable sourcemaps, defaults to enabled (minified builds currently always create sourcemaps)
   hmrHostname: '', // A hostname for hot module reload, default to ''
-  detailedReport: false, // Prints a detailed report of the bundles, assets, filesizes and times, defaults to false, reports are only printed if watch is disabled
-  autoInstall: true, // Enable or disable auto install of missing dependencies found during bundling
+  detailedReport: true, // Prints a detailed report of the bundles, assets, filesizes and times, defaults to false, reports are only printed if watch is disabled
+  autoInstall: false, // Enable or disable auto install of missing dependencies found during bundling
 };
 
 (async function() {
@@ -63,4 +63,5 @@ const options = {
   // Run the bundler, this returns the main bundle
   // Use the events if you're using watch mode as this promise will only trigger once and not for every rebuild
   const bundle = await bundler.bundle();
+  //   bundler.serve();
 })();
