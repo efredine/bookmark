@@ -11,6 +11,7 @@ const omniBoxSuggestions = () => {
     chrome.omnibox.setDefaultSuggestion({ description });
 
   const clearSuggestions = () => {
+    console.log('clearing suggestions');
     setDefaultSuggestion('<url>bm</url>');
     hasSuggestion = false;
     suggestedUrl = null;
@@ -18,6 +19,7 @@ const omniBoxSuggestions = () => {
   };
 
   const navigate = url => {
+    console.log('navigating to...', url);
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       chrome.tabs.update(tabs[0].id, { url: url });
     });
@@ -40,7 +42,7 @@ const omniBoxSuggestions = () => {
         }
       }
       if (suggestions.length > 0) {
-        const { content, description } = suggestions[0];
+        const { content, description } = suggestions.shift();
         setDefaultSuggestion(`${description} <url>${content}</url>`);
         suggestedText = text;
         suggestedUrl = content;
@@ -48,15 +50,19 @@ const omniBoxSuggestions = () => {
         console.log(suggestions);
         suggest(suggestions);
       } else {
+        suggest([]);
         clearSuggestions();
       }
     });
   });
 
-  chrome.omnibox.onInputCancelled.addListener(clearSuggestions);
+  // chrome.omnibox.onInputCancelled.addListener(() => {
+  //   console.log('input cancelled');
+  //   clearSuggestions();
+  // });
 
   chrome.omnibox.onInputEntered.addListener((text, disposition) => {
-    console.log({ text, disposition });
+    console.log({ text, disposition, hasSuggestion });
     if (hasSuggestion) {
       if (text.localeCompare(suggestedText) === 0) {
         navigate(suggestedUrl);
