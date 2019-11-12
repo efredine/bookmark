@@ -1,6 +1,8 @@
 import { getMatchesQuery } from '../repository';
 
 const omniBoxSuggestions = () => {
+  const removeSpecialCharacters = /[^\w\s]/gi;
+
   let suggestedUrl;
   let suggestedText;
   let hasSuggestion = false;
@@ -24,11 +26,18 @@ const omniBoxSuggestions = () => {
   chrome.omnibox.onInputChanged.addListener((text, suggest) => {
     getMatchesQuery(text, response => {
       const suggestions = [];
+
+      // todo: prevent duplicates from being inserted into the database
+      const urls = new Set();
       for (let row of response.rows) {
-        suggestions.push({
-          content: row.url,
-          description: row.title,
-        });
+        const { url, title } = row;
+        if (!urls.has(url)) {
+          urls.add(url);
+          suggestions.push({
+            content: url,
+            description: title.replace(removeSpecialCharacters, ''),
+          });
+        }
       }
       if (suggestions.length > 0) {
         const { content, description } = suggestions[0];
@@ -36,15 +45,11 @@ const omniBoxSuggestions = () => {
         suggestedText = text;
         suggestedUrl = content;
         hasSuggestion = true;
+        console.log(suggestions);
+        suggest(suggestions);
       } else {
         clearSuggestions();
       }
-      suggest(suggestions);
-      console.log('inputChanged', {
-        suggestedText,
-        suggestedUrl,
-        hasSuggestion,
-      });
     });
   });
 
