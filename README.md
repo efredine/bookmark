@@ -1,21 +1,13 @@
 # Chrome Bookmark Extension with Full Text Search of Bookmarked Pages
 
-Uses WebSQL to store index of bookmarked pages allowing full text search of bookmarked pages.
+A bookmark extension that saves the content of the page as well as the link. Find bookmarked pages by doing a full text search of page content in the Chrome omnibox: just type `bm+tab` in the omnibox and start searching. Bookmark pages by clicking the extension icon [icon](./src/icon.png) or use the keyboard shortcut for the extension: `shift+alt+b`.
 
-# CLI Commands
+[Screenshot](./screenshot.png)
 
-## Development
-
-```Shell
-yarn watch
-```
-
-Starts the watcher for building project when a file changed.
-
-## Building
+# Building
 
 ```Shell
 yarn build
 ```
 
-Preps your app for deployment. Minifies all files, piping them to the `src/build` folder.
+Preps the extension for deployment. Output files are in the `./dist` folder and should be loaded into chrome as an unpacked extension in developer mode.
