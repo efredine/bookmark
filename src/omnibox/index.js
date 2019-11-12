@@ -11,7 +11,6 @@ const omniBoxSuggestions = () => {
     chrome.omnibox.setDefaultSuggestion({ description });
 
   const clearSuggestions = () => {
-    console.log('clearing suggestions');
     setDefaultSuggestion('<url>bm</url>');
     hasSuggestion = false;
     suggestedUrl = null;
@@ -19,7 +18,6 @@ const omniBoxSuggestions = () => {
   };
 
   const navigate = url => {
-    console.log('navigating to...', url);
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       chrome.tabs.update(tabs[0].id, { url: url });
     });
@@ -55,11 +53,6 @@ const omniBoxSuggestions = () => {
       }
     });
   });
-
-  // chrome.omnibox.onInputCancelled.addListener(() => {
-  //   console.log('input cancelled');
-  //   clearSuggestions();
-  // });
 
   chrome.omnibox.onInputEntered.addListener((text, disposition) => {
     console.log({ text, disposition, hasSuggestion });

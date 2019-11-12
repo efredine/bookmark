@@ -1,30 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Button from './components/Button';
 import { insertPage } from './repository';
-
-class App extends React.Component {
-  render() {
-    console.log('Injected into DOM.');
-    return (
-      <div>
-        <Button />
-      </div>
-    );
-  }
-}
 
 chrome.runtime.onMessage.addListener((request, sender, response) => {
   console.log('Received in main.js:', request);
-  // If message is injectApp
-  if (request.injectApp) {
-    // Inject our app to DOM and send response
-    injectApp();
-    console.log('Insert injection here.');
-    response({
-      startedExtension: true,
-    });
-  }
   if (request.bookmarkPage) {
     bookmarkPage(response);
     return true;
@@ -58,11 +35,4 @@ function bookmarkPage(response) {
     },
     response
   );
-}
-
-function injectApp() {
-  const newDiv = document.createElement('div');
-  newDiv.setAttribute('id', 'chromeExtensionReactApp');
-  document.body.appendChild(newDiv);
-  ReactDOM.render(<App />, newDiv);
 }

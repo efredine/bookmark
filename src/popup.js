@@ -1,13 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Button from './components/Button';
-
-function ExtensionApp() {
-  return <Button />;
-}
-console.log('Executing popup.js');
+const bookmarkCurrentPage = () => {
+  chrome.tabs.query(
+    {
+      active: true,
+      currentWindow: true,
+    },
+    tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, { bookmarkPage: true }, response => {
+        const $container = document.querySelector('#container');
+        $container.innerHTML = 'Bookmarked!';
+        setTimeout(() => {
+          window.close();
+        }, 3000);
+      });
+    }
+  );
+};
 
 window.onload = () => {
-  const $container = document.querySelector('#container');
-  ReactDOM.render(<ExtensionApp />, $container);
+  bookmarkCurrentPage();
 };
