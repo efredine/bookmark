@@ -45,7 +45,6 @@ const omniBoxSuggestions = () => {
         suggestedText = text;
         suggestedUrl = content;
         hasSuggestion = true;
-        console.log(suggestions);
         suggest(suggestions);
       } else {
         suggest([]);
@@ -55,7 +54,6 @@ const omniBoxSuggestions = () => {
   });
 
   chrome.omnibox.onInputEntered.addListener((text, disposition) => {
-    console.log({ text, disposition, hasSuggestion });
     if (hasSuggestion) {
       if (text.localeCompare(suggestedText) === 0) {
         navigate(suggestedUrl);

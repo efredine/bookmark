@@ -19,7 +19,6 @@ const initializeRepository = () => {
     db = prepareDatabase(console.error);
   });
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log('Dispatching:', request);
     if (request.insertPage) {
       insertPageMutation(request.parameters, sendResponse);
       return true;

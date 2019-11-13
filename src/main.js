@@ -1,7 +1,6 @@
 import { insertPage } from './repository';
 
 chrome.runtime.onMessage.addListener((request, sender, response) => {
-  console.log('Received in main.js:', request);
   if (request.bookmarkPage) {
     bookmarkPage(response);
     return true;
