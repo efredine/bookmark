@@ -39,27 +39,27 @@ const omniBoxSuggestions = () => {
           });
         }
       }
-      if (suggestions.length > 0) {
-        const { content, description } = suggestions.shift();
-        setDefaultSuggestion(`${description} <url>${content}</url>`);
-        suggestedText = text;
-        suggestedUrl = content;
-        hasSuggestion = true;
-        suggest(suggestions);
-      } else {
+
+      if (suggestions.length == 0) {
         suggest([]);
         clearSuggestions();
+        return;
       }
+
+      const { content, description } = suggestions.shift();
+      setDefaultSuggestion(`${description} <url>${content}</url>`);
+      suggestedText = text;
+      suggestedUrl = content;
+      hasSuggestion = true;
+      suggest(suggestions);
     });
   });
 
   chrome.omnibox.onInputEntered.addListener((text, disposition) => {
     if (hasSuggestion) {
-      if (text.localeCompare(suggestedText) === 0) {
-        navigate(suggestedUrl);
-      } else {
-        navigate(text);
-      }
+      text.localeCompare(suggestedText) === 0
+        ? navigate(suggestedUrl)
+        : navigate(text);
     }
     clearSuggestions();
   });
