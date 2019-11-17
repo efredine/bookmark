@@ -1,5 +1,10 @@
 import { insertPage } from './repository';
 
+const url = window.location.href;
+console.log('loading', url);
+
+chrome.runtime.sendMessage({ url }, console.log);
+
 chrome.runtime.onMessage.addListener((request, sender, response) => {
   if (request.bookmarkPage) {
     bookmarkPage(response);

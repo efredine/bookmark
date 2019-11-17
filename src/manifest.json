@@ -19,7 +19,7 @@
     "128": "icon.png"
   },
 
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "history"],
 
   "content_scripts": [
     {
